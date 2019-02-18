@@ -9,4 +9,6 @@
     <string name="rating">Rating:</string>
     <string name="description">Description:</string>
     <string name="date">Release date:</string>
+    <string name="movieTitle">Title:</string>
+    <string name="empty">No movies found!</string>
 </resources>

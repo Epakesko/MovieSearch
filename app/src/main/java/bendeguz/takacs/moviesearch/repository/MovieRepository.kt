@@ -38,10 +38,10 @@ class MovieRepository {
         this.tmdbApi = retrofit.create(TMDBApi::class.java)
     }
 
-    fun getMovieList(query: String): LiveData<SearchResponse> {
+    fun getMovieList(query: String, page: Int): LiveData<SearchResponse> {
         val data = MutableLiveData<SearchResponse>()
 
-        tmdbApi.searchMovies(TMDBApi.TMDB_API_KEY, query).enqueue(object: Callback<SearchResponse>    {
+        tmdbApi.searchMovies(TMDBApi.TMDB_API_KEY, query, page).enqueue(object: Callback<SearchResponse>    {
             override fun onFailure(call: Call<SearchResponse>?, t: Throwable?) {
 
             }
@@ -50,18 +50,18 @@ class MovieRepository {
                 GlobalScope.launch (Dispatchers.Main) {
                     val resultsAsync = mutableListOf<Deferred<Movie>>()
                     val results = mutableListOf<Movie>()
-                    val response = response.body()
+                    val resp = response.body()
 
 
-                    for (movie in response!!.results) {
+                    for (movie in resp!!.results) {
                         resultsAsync.add(async { tmdbApi.searchMovie(movie.id, TMDBApi.TMDB_API_KEY).runCoroutine() })
                     }
                     for (a in resultsAsync) {
                         results.add(a.await())
                     }
 
-                    response?.results = results
-                    data.value = response
+                    resp.results = results
+                    data.value = resp
                 }
             }
         })

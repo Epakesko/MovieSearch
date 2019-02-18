@@ -15,7 +15,8 @@ interface TMDBApi {
 
     @GET("search/movie")
     fun searchMovies(@Query("api_key") api_key: String,
-                     @Query("query") query: String
+                     @Query("query") query: String,
+                     @Query("page") page: Int
     ): Call<SearchResponse>
 
     @GET("movie/{movieId}")

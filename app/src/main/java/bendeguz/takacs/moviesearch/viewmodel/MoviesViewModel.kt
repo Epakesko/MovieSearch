@@ -12,9 +12,9 @@ class MoviesViewModel : ViewModel() {
     var searchResponse: LiveData<SearchResponse> = MutableLiveData<SearchResponse>()
     private var queryString: String? = null
 
-    fun initialize(query: String){
+    fun initialize(query: String, page: Int){
         queryString = query
-        searchResponse = MovieRepository().getMovieList(queryString as String)
+        searchResponse = MovieRepository().getMovieList(queryString as String, page)
     }
 
     fun getMovie(movieId: Int): Movie? {

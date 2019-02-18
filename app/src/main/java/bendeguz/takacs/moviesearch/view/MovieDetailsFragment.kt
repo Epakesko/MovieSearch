@@ -43,7 +43,6 @@ class MovieDetailsFragment: Fragment() {
         val url = arguments!!.getString(MOVIE_PICTURE_URL)
         val date = arguments!!.getString(MOVIE_RELEASE_DATE)
 
-        progressBar.visibility = View.GONE
         Glide.with(this)
             .load("https://image.tmdb.org/t/p/w300/$url")
             .apply(
