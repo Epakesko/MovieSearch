@@ -33,7 +33,7 @@ class MovieListFragment : Fragment() {
         viewModel.searchResponse.observe(this,
             Observer<SearchResponse> { response ->
                 if (response != null) {
-
+                    val alma = "alma"
                     //movieAdapter!!.setMovieList(response.movies)
                 }
             })

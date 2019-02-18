@@ -15,7 +15,7 @@ class MovieActivity : AppCompatActivity() {
 
         query = intent.getStringExtra(MainActivity.QUERY_STRING)
 
-        val movieListFragment = MovieListFragment.newInstance(etQuery.text.toString())
+        val movieListFragment = MovieListFragment.newInstance(query)
         val ft = supportFragmentManager.beginTransaction()
         ft.replace(R.id.fragmentContainer, movieListFragment, MovieListFragment.MOVIE_LIST_FRAGMENT)
         ft.commit()
