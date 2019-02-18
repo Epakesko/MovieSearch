@@ -8,9 +8,23 @@ import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 import bendeguz.takacs.moviesearch.model.SearchResponse
+import kotlinx.coroutines.*
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
+import kotlin.coroutines.resume
+import kotlin.coroutines.resumeWithException
+import kotlin.coroutines.suspendCoroutine
 
+suspend fun <T> Call<T>.runCoroutine() : T = suspendCoroutine {
+    this.enqueue(object : Callback<T>{
+        override fun onFailure(call: Call<T>, t: Throwable) {
+            it.resumeWithException(t)
+        }
+        override fun onResponse(call: Call<T>, response: Response<T>) {
+            it.resume(response.body()!!)
+        }
+    })
+}
 
 class MovieRepository {
     private val tmdbApi: TMDBApi
@@ -26,7 +40,6 @@ class MovieRepository {
 
     fun getMovieList(query: String): LiveData<SearchResponse> {
         val data = MutableLiveData<SearchResponse>()
-        val movies = mutableListOf<Movie>()
 
         tmdbApi.searchMovies(TMDBApi.TMDB_API_KEY, query).enqueue(object: Callback<SearchResponse>    {
             override fun onFailure(call: Call<SearchResponse>?, t: Throwable?) {
@@ -34,22 +47,23 @@ class MovieRepository {
             }
 
             override fun onResponse(call: Call<SearchResponse>?, response: Response<SearchResponse>) {
-                data.value = response.body()
-                data.value?.results?.forEach {movie ->
-                    tmdbApi.searchMovie(movie.id, TMDBApi.TMDB_API_KEY).enqueue(object: Callback<Movie>    {
-                        override fun onFailure(call: Call<Movie>?, t: Throwable?) {
+                GlobalScope.launch (Dispatchers.Main) {
+                    val resultsAsync = mutableListOf<Deferred<Movie>>()
+                    val results = mutableListOf<Movie>()
+                    data.value = response.body()
 
-                        }
 
-                        override fun onResponse(call: Call<Movie>?, response: Response<Movie>) {
-                            movies.add(response.body()!!)
-                        }
-                    })
+                    for (movie in data.value!!.results) {
+                        resultsAsync.add(async { tmdbApi.searchMovie(movie.id, TMDBApi.TMDB_API_KEY).runCoroutine() })
+                    }
+                    for (a in resultsAsync) {
+                        results.add(a.await())
+                    }
+
+                    data.value?.results = results
                 }
-                data.value?.results = movies
             }
         })
-
         return data
     }
 }

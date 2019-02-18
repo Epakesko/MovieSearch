@@ -6,11 +6,18 @@
         android:background="@drawable/row_background"
         xmlns:android="http://schemas.android.com/apk/res/android">
 
+        <ImageView android:layout_width="60dp"
+                   android:layout_height="wrap_content"
+                   android:id="@+id/ivPicture"
+                   android:layout_alignParentStart="true"
+                   android:layout_margin="5dp"/>
+
         <TextView
                 android:id="@+id/tvTitle"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentTop="true"
+                android:layout_toEndOf="@id/ivPicture"
                 android:textSize="16sp" />
 
         <TextView
@@ -19,6 +26,7 @@
                 android:layout_height="wrap_content"
                 android:layout_alignParentBottom="true"
                 android:layout_below="@id/tvTitle"
+                android:layout_toEndOf="@id/ivPicture"
                 android:gravity="bottom"
                 android:textSize="12sp"/>
 

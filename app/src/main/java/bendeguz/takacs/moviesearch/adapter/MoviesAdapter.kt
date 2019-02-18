@@ -4,10 +4,14 @@ import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageView
 import android.widget.TextView
 import bendeguz.takacs.moviesearch.R
 import bendeguz.takacs.moviesearch.model.Movie
 import kotlinx.android.synthetic.main.movie_list_row.view.*
+import com.bumptech.glide.Glide
+import com.bumptech.glide.load.engine.DiskCacheStrategy
+import com.bumptech.glide.request.RequestOptions
 
 class MoviesAdapter(private val movieList: MutableList<Movie>) : RecyclerView.Adapter<MoviesAdapter.ViewHolder>() {
 
@@ -22,6 +26,13 @@ class MoviesAdapter(private val movieList: MutableList<Movie>) : RecyclerView.Ad
         val movie = movieList[position]
         val budget = "$${movie.budget}"
 
+        Glide.with(holder.ivPicture.context)
+            .load("https://image.tmdb.org/t/p/w300/" + movie.poster_path)
+            .apply(RequestOptions()
+                .placeholder(R.drawable.not_applicable)
+            )
+            .into(holder.ivPicture)
+
         holder.movieId = movie.id
         holder.tvTitle.text = movie.title
         holder.tvBudget.text = budget
@@ -33,6 +44,7 @@ class MoviesAdapter(private val movieList: MutableList<Movie>) : RecyclerView.Ad
         var movieId: Int? = null
         val tvTitle: TextView = itemView.tvTitle
         val tvBudget: TextView = itemView.tvBudget
+        val ivPicture: ImageView = itemView.ivPicture
 
         init {
             itemView.setOnClickListener {
