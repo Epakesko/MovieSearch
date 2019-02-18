@@ -66,6 +66,7 @@ class MovieListFragment : Fragment(), MoviesAdapter.MovieClickListener {
             })
     }
 
+
     override fun onItemClick(movieId: Int) {
         val fragment = MovieDetailsFragment.newInstance(movieId)
         val ft = fragmentManager!!.beginTransaction()

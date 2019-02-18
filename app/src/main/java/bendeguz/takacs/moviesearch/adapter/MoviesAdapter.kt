@@ -10,7 +10,6 @@ import bendeguz.takacs.moviesearch.R
 import bendeguz.takacs.moviesearch.model.Movie
 import kotlinx.android.synthetic.main.movie_list_row.view.*
 import com.bumptech.glide.Glide
-import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.bumptech.glide.request.RequestOptions
 
 class MoviesAdapter(private val movieList: MutableList<Movie>) : RecyclerView.Adapter<MoviesAdapter.ViewHolder>() {
