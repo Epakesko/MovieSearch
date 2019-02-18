@@ -9,5 +9,6 @@ data class Movie(
     val poster_path: String,
     val backdrop_path: String,
     val overview: String,
-    val release_date: String
+    val release_date: String,
+    val budget: Int
 )

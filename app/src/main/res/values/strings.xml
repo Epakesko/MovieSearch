@@ -3,4 +3,7 @@
     <string name="search">Search</string>
     <string name="query">query</string>
     <string name="title">MOVIE SEARCH</string>
+    <string name="budget">\\$%1$d</string>
+    <string name="previous">Previous</string>
+    <string name="next">Next</string>
 </resources>

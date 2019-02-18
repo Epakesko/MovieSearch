@@ -10,6 +10,7 @@ class MainActivity : AppCompatActivity() {
 
     companion object {
         const val QUERY_STRING = "query_string"
+        const val MOVIE_ID = "movie_id"
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
