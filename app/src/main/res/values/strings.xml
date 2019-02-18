@@ -6,4 +6,7 @@
     <string name="budget">\\$%1$d</string>
     <string name="previous">Previous</string>
     <string name="next">Next</string>
+    <string name="rating">Rating:</string>
+    <string name="description">Description:</string>
+    <string name="date">Release date:</string>
 </resources>

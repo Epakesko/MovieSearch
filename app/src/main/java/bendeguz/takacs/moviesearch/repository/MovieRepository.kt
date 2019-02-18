@@ -50,17 +50,18 @@ class MovieRepository {
                 GlobalScope.launch (Dispatchers.Main) {
                     val resultsAsync = mutableListOf<Deferred<Movie>>()
                     val results = mutableListOf<Movie>()
-                    data.value = response.body()
+                    val response = response.body()
 
 
-                    for (movie in data.value!!.results) {
+                    for (movie in response!!.results) {
                         resultsAsync.add(async { tmdbApi.searchMovie(movie.id, TMDBApi.TMDB_API_KEY).runCoroutine() })
                     }
                     for (a in resultsAsync) {
                         results.add(a.await())
                     }
 
-                    data.value?.results = results
+                    response?.results = results
+                    data.value = response
                 }
             }
         })

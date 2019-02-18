@@ -68,7 +68,9 @@ class MovieListFragment : Fragment(), MoviesAdapter.MovieClickListener {
 
 
     override fun onItemClick(movieId: Int) {
-        val fragment = MovieDetailsFragment.newInstance(movieId)
+        val viewModel = ViewModelProviders.of(this).get(MoviesViewModel::class.java!!)
+        val movie = viewModel.getMovie(movieId)!!
+        val fragment = MovieDetailsFragment.newInstance(movie.title, movie.overview, movie.vote_average, movie.backdrop_path, movie.release_date)
         val ft = fragmentManager!!.beginTransaction()
         ft.replace(R.id.fragmentContainer, fragment, "MOVIE_DETAILS_FRAGMENT")
         ft.addToBackStack("MOVIE_DETAILS_FRAGMENT")
