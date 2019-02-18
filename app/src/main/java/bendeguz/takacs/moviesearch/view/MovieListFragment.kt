@@ -4,6 +4,7 @@ import android.arch.lifecycle.Observer
 import android.os.Bundle
 import android.support.v4.app.Fragment
 import android.arch.lifecycle.ViewModelProviders
+import android.support.v7.widget.LinearLayoutManager
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -29,6 +30,22 @@ class MovieListFragment : Fragment(), MoviesAdapter.MovieClickListener {
         return inflater.inflate(R.layout.movie_list, container, false)
     }
 
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        rvMovies.layoutManager = LinearLayoutManager(activity)
+
+        btnPreviousResults.visibility = View.GONE
+        btnNextResults.visibility = View.GONE
+
+        btnPreviousResults.setOnClickListener {
+
+        }
+
+        btnNextResults.setOnClickListener {
+
+        }
+    }
+
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
         val viewModel = ViewModelProviders.of(this).get(MoviesViewModel::class.java!!)
@@ -44,7 +61,7 @@ class MovieListFragment : Fragment(), MoviesAdapter.MovieClickListener {
                     rvMovies.adapter = MoviesAdapter(response.results)
                     (rvMovies.adapter as MoviesAdapter).itemClickListener = this
                     btnPreviousResults.visibility = if(response.page == 1) View.GONE else View.VISIBLE
-                    btnNextResults.visibility = if(response.page == response.total_pages) View.VISIBLE else View.GONE
+                    btnNextResults.visibility = if(response.page != response.total_pages) View.VISIBLE else View.GONE
                 }
             })
     }
